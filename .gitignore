@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.pyc
+
+# Generated drafts / local artifacts
+ready-to-publish/
+
+# OS / editor
+.DS_Store
+Thumbs.db

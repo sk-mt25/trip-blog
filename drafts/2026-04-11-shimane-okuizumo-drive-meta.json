@@ -1,0 +1,27 @@
+{
+  "trip_name": "2026-04-11 島根・奥出雲ドライブ",
+  "date": "2026-04-11",
+  "area": "島根・奥出雲",
+  "slug": "2026-04-11-shimane-okuizumo-drive",
+  "draft": true,
+  "trip_dir": "/mnt/d/ai/openclaw/trip/2026-04-11_shimane-okuizumo-drive",
+  "post_path": "/mnt/d/ai/openclaw/trip-blog/posts/2026-04-11-shimane-okuizumo-drive.md",
+  "g_ready_path": "/mnt/d/GoogleDrive/openclaw/trip-blog-ready/2026-04-11-shimane-okuizumo-drive.html",
+  "photo_candidates": [
+    "10:03 出発",
+    "12:27 道の駅 赤来高原",
+    "13:11 八重滝",
+    "13:55 道の駅 おろちの里",
+    "購入したパン2種。",
+    "八重滝入口付近, 周辺の山肌, バイク。",
+    "棚田周辺とバイク。",
+    "途中の桜とバイクのカット。",
+    "詰め放題のはっさく。"
+  ],
+  "source_files": [
+    "plan.md",
+    "live-log.md",
+    "summary.md"
+  ],
+  "publish_check": "human_required"
+}
