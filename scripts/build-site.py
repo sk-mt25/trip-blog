@@ -10,6 +10,14 @@ G_READY = Path('/mnt/d/GoogleDrive/openclaw/trip-blog-ready')
 TEMPLATE = (ROOT / 'templates' / 'site.template.html').read_text(encoding='utf-8')
 
 
+def inline_md(text: str) -> str:
+    escaped = html.escape(text)
+    escaped = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'<img src="\2" alt="\1" loading="lazy">', escaped)
+    escaped = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', escaped)
+    escaped = re.sub(r'`([^`]+)`', r'<code>\1</code>', escaped)
+    return escaped
+
+
 def md_to_html(text: str) -> str:
     lines = text.splitlines()
     out = []
@@ -25,17 +33,22 @@ def md_to_html(text: str) -> str:
             if in_list:
                 out.append('</ul>')
                 in_list = False
-            out.append(f'<h1>{html.escape(line[2:].strip())}</h1>')
+            out.append(f'<h1>{inline_md(line[2:].strip())}</h1>')
         elif line.startswith('## '):
             if in_list:
                 out.append('</ul>')
                 in_list = False
-            out.append(f'<h2>{html.escape(line[3:].strip())}</h2>')
+            out.append(f'<h2>{inline_md(line[3:].strip())}</h2>')
+        elif line.startswith('### '):
+            if in_list:
+                out.append('</ul>')
+                in_list = False
+            out.append(f'<h3>{inline_md(line[4:].strip())}</h3>')
         elif line.startswith('- '):
             if not in_list:
                 out.append('<ul>')
                 in_list = True
-            out.append(f'<li>{html.escape(line[2:].strip())}</li>')
+            out.append(f'<li>{inline_md(line[2:].strip())}</li>')
         elif not line.strip():
             if in_list:
                 out.append('</ul>')
@@ -44,7 +57,7 @@ def md_to_html(text: str) -> str:
             if in_list:
                 out.append('</ul>')
                 in_list = False
-            out.append(f'<p>{html.escape(line.strip())}</p>')
+            out.append(f'<p>{inline_md(line.strip())}</p>')
     if in_list:
         out.append('</ul>')
     return '\n'.join(out)
