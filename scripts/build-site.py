@@ -2,6 +2,7 @@
 from pathlib import Path
 import html
 import re
+import shutil
 
 ROOT = Path(__file__).resolve().parent.parent
 POSTS = ROOT / 'posts'
@@ -79,6 +80,12 @@ def render_page(title: str, description: str, content: str) -> str:
 def main():
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / 'posts').mkdir(parents=True, exist_ok=True)
+    public_src = ROOT / 'public'
+    public_dst = SITE
+    if public_src.exists():
+        images_src = public_src / 'images'
+        if images_src.exists():
+            shutil.copytree(images_src, public_dst / 'images', dirs_exist_ok=True)
     if ENABLE_G_READY:
         G_READY.mkdir(parents=True, exist_ok=True)
 
