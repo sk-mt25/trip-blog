@@ -3,7 +3,7 @@ from pathlib import Path
 import html
 import re
 
-ROOT = Path('/mnt/d/ai/openclaw/trip-blog')
+ROOT = Path(__file__).resolve().parent.parent
 POSTS = ROOT / 'posts'
 SITE = ROOT / 'site'
 G_READY = Path('/mnt/d/GoogleDrive/openclaw/trip-blog-ready')
@@ -78,7 +78,8 @@ def render_page(title: str, description: str, content: str) -> str:
 def main():
     SITE.mkdir(parents=True, exist_ok=True)
     (SITE / 'posts').mkdir(parents=True, exist_ok=True)
-    G_READY.mkdir(parents=True, exist_ok=True)
+    if str(G_READY).startswith('/mnt/'):
+        G_READY.mkdir(parents=True, exist_ok=True)
 
     cards = []
     for md_path in sorted(POSTS.glob('*.md')):
@@ -91,15 +92,19 @@ def main():
         page = render_page(title, description, body)
         out = SITE / 'posts' / f'{slug}.html'
         out.write_text(page, encoding='utf-8')
-        (G_READY / f'{slug}.html').write_text(page, encoding='utf-8')
+        if str(G_READY).startswith('/mnt/'):
+            (G_READY / f'{slug}.html').write_text(page, encoding='utf-8')
         cards.append(f'<li><a href="./posts/{slug}.html">{html.escape(title)}</a> <span>({html.escape(date)})</span></li>')
 
     index_content = '<h1>trip-blog</h1><p>公開用記事一覧</p><ul>' + ''.join(cards) + '</ul>'
     index_page = render_page('trip-blog', 'trip blog index', index_content)
     (SITE / 'index.html').write_text(index_page, encoding='utf-8')
-    (G_READY / 'index.html').write_text(index_page, encoding='utf-8')
-    print(SITE)
-    print(G_READY)
+    if str(G_READY).startswith('/mnt/'):
+        (G_READY / 'index.html').write_text(index_page, encoding='utf-8')
+        print(SITE)
+        print(G_READY)
+    else:
+        print(SITE)
 
 
 if __name__ == '__main__':
